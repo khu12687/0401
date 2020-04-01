@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+img{
+    position: absolute;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+// 랜덤값 구하기!! 객체
+// 자바스크립트의 내장객체중 수학(Math)객체를 표현한 객체를 사용하면
+// 랜덤값을 구할 수 있다..
+var r = Math.random(); //소수점 난수 반환
+var img;
+var a=0.1;
+var targetX=0;
+var targetY=0;
+// document.write(parseInt((r*10)*100));
+addEventListener("load",function(){
+    createImg();
+    // targetX=parseInt(img.style.left);
+    // targetY=parseInt(img.style.top);
+    img.style.left=((r*500)+1)+"px";
+    img.style.top=((r*500)+1)+"px";
+    setInterval("move()",100);
+});
+function move(){
+    img.style.left=parseFloat(img.style.left)+a*(targetX-parseFloat(img.style.left))+"px";
+    img.style.top=parseFloat(img.style.top)+a*(targetY-parseFloat(img.style.top))+"px";
+}
+function createImg(){
+    img = document.createElement("img");
+    img.src="../images/bug.png";
+    img.style.position="absolute";
+    img.style.width=50+"px";
+    img.style.height=50+"px";
+    // img.style.left=Math.floor((r*1000)+1)+"px";
+    // img.style.top=Math.floor((r*1000)+1)+"px";
+    var container = document.getElementById("container");
+    container.appendChild(img); 
+}
+</script>
+<title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <img src="../images/forest.jpg">
+    </div>
+</body>
+</html>

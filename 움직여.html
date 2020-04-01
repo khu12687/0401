@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+<style>
+body{
+    margin: 0px;
+}
+#container{
+    width: 950px;
+    height: 633px;
+    background-image: url("../images/forest.jpg");
+    margin: auto;
+    position: relative; /*자식때문에*/
+}
+</style>
+<script src="../js/lib.js"></script>
+<script>
+var container;
+var pic;
+var a=0.1;
+var targetX=500;
+var targetY=200;
+window.addEventListener("load",function(){
+    init();
+    createImg();
+    setInterval("move()",10);
+    setInterval("setTarget()",2000); //원하는 시간 간격으로 랜덤값을 던져주자
+});
+function init(){
+    container = document.getElementById("container");
+}
+//반딧불 이미지 생성하고 부착하기!
+function createImg(){
+    pic = document.createElement("img");
+    pic.src="../images/pi.png";
+    //프로그래밍적으로 스타일 포지션을 지정해놓아야 추후
+    //pic.style.left 값을 추출할 수 있다.
+    pic.style.position="absolute";
+    pic.style.left=100+"px";
+    pic.style.top=100+"px";
+    pic.style.width=70+"px";
+
+    //화면에 부착!
+    container.appendChild(pic);
+}
+function setTarget(){
+    targetX=getRandom(1,500);
+    targetY=getRandom(1,500);
+
+}
+function move(){
+    pic.style.left=parseFloat(pic.style.left)+a*(targetX-parseFloat(pic.style.left))+"px";
+    pic.style.top=parseFloat(pic.style.top)+a*(targetY-parseFloat(pic.style.top))+"px";
+}
+</script>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+<style>
+#container{
+    width: 415px;
+    height: 415px;
+    margin: auto;
+    position: relative;
+}
+</style>
+<script>
+    
+addEventListener("load",function(){
+    createImg();
+    createRect();
+    setInterval("move()",25);
+});
+var a=0.1;
+var gap=5;
+var n=0;
+var box;
+tragetX=0;
+tragetY=0;
+function createImg(){
+    for(var i=0; i<4; i++){
+        for(var j=0; j<4; j++){
+            var img = document.createElement("img");
+            var container = document.getElementById("container");
+            container.appendChild(img);
+            img.src="../images/i"+(++n)+".png";
+            img.style.width=100+"px";
+            img.style.height=100+"px";
+            img.style.position="absolute";
+            img.style.top=i*(100+gap)+"px";
+            img.style.left=j*(100+gap)+"px";
+
+            img.addEventListener("click",function(){
+               tragetX=parseInt(this.style.left);
+               tragetY=parseInt(this.style.top);
+            //move();
+            });
+            
+        }
+    }
+}
+function createRect(){
+    box = document.createElement("div");
+    box.style.position="absolute";
+    box.style.left=0+"px";
+    box.style.top=0+"px";
+    box.style.width=90+"px";
+    box.style.height=90+"px";
+    box.style.border="5px solid red";
+    container.appendChild(box);
+}
+function move(){
+     //나의 위치는 = 현재나의위치 + 비율계수*(목표지점과의 남은거리)
+     box.style.left=parseFloat(box.style.left)+a*(tragetX-parseFloat(box.style.left))+"px";
+     box.style.top=parseFloat(box.style.top)+a*(tragetY-parseFloat(box.style.top))+"px";
+}
+function setColor(bg){
+    box.style.background=bg;
+}
+function setOp(op){
+    box.style.opacity=op;
+}
+</script>
+</head>
+<body>
+    <select onchange="setColor(this.value)">
+        <option>색깔선택</option>
+        <option value="red">빨간색</option>
+        <option value="blue">파린색</option>
+        <option value="green">초록색</option>
+        <option value="yellow">노란색</option>
+    </select>
+    <select  onchange="setOp(this.value)">
+        <option>밝기선택</option>
+        <option value="0.05">0.05</option>
+        <option value="0.1">0.1</option>
+        <option value="0.3">0.3</option>
+        <option value="0.6">0.6</option>
+    </select>
+    <div id="container"></div>
+</body>
+</html>

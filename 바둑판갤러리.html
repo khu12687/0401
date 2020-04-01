@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+<style>
+#container{
+    width: 415px; /*이미지 공간 400 gap 공간 15 공간 총 415*/ 
+    height: 415px;
+    margin: auto;
+    position: relative; /*자식떄문에.. 명시*/
+}
+</style>
+<script>
+ var container;
+ var box; //전역변수 이므로 모든 함수에서 접근가능!
+// 프로그램이 가동되자마자 즉 onload 시 이미지 생성!!
+var a=0.1; //남은 거리의 몇%를 갈지를 결정, 이 변수의 값이 클수록
+                // 많은 거리를 가기땜에 투박하다.
+var targetX =0; //목표 x축
+var targetY =0; //목표 y축
+addEventListener("load",function(){
+    // alert("문서로드햇어??");
+    container = document.getElementById("container");
+    createImg();
+    createRect(); //사각형 존재시키자
+    setInterval("move()",25);
+});
+var gap=5; //이미지 사이의 간격
+var count=0;
+function createImg(){
+    // container div 안쪽의 자식요소로 이미지를 생성하여 부착!! 16
+    // 너비 100 높이100
+    for(var a=0; a<4; a++){ //층을 결정한다 y축
+        for(var i=0; i<4; i++){ //호수를 결정한다 x축
+            var img = document.createElement("img");
+            img.src="../images/i"+(++count)+".png"; 
+            img.style.width=100+"px";
+            img.style.height=100+"px";
+            //지금도 보기 좋지만, 포지션 값이 할당되어야, 포인터가
+            // 목표지점을 향해올수있다.
+            img.style.position="absolute";
+            img.style.left=i*(100+gap)+"px";
+            img.style.top=a*(100+gap)+"px";
+
+            // 이미지에 이벤트 헨들러 연결!!
+            img.addEventListener("click",function(){
+                // alert("저의 xy좌표는"+ parseInt(this.style.left)+this.style.top); //parseInt을 붙이면 px사라짐
+                // 추출한 위치값을 사각형 box의 위치와 일치시키자!!
+                targetX=parseInt(this.style.left);
+                targetY=parseInt(this.style.top);
+                // move();
+            });
+            container.appendChild(img); /*이미지를 컨테이너에 넣음 컨테이너의 자식으로 img을줌*/
+        }
+    }
+ }
+ //이미지를 따라다니는 사각형 생성!!
+ function createRect(){
+    box = document.createElement("div");
+    box.style.position ="absolute"; //이미지 위에 얹혀져야 하므로 중첩이 가능하게
+    box.style.left=0+"px";
+    box.style.top=0+"px";
+    box.style.width=90+"px";
+    box.style.height=90+"px";
+    box.style.border="5px solid red";
+
+    // 배경색상 처리
+    box.style.background="yellow";
+    box.style.opacity=0.6; //alpha 투명도
+
+    // container에 부착!!
+    container.appendChild(box);
+ }
+ //박스의 색상을 변경하는 함수
+ function setBg(bg){
+     box.style.background=bg;
+ }
+ function setOp(op){
+     box.style.opacity=op;
+ }
+ //한번에 도달하게 하지 말고, 목표지점에 대해 일부만 도달하도록 처리
+ function move(){   
+     //나의 위치는 = 현재나의위치 + 비율계수*(목표지점과의 남은거리)
+    box.style.left=parseFloat(box.style.left)+a*(targetX-parseFloat(box.style.left))+"px";
+    box.style.top=parseFloat(box.style.top)+a*(targetY-parseFloat(box.style.top))+"px";
+ }
+</script>
+</head>
+<body>
+    <select onchange="setBg(this.value)">
+        <option>색상 선택</option>
+        <option value="blue">파란색</option>
+        <option value="red">빨간색</option>
+        <option value="yellow">노랑색</option>
+        <option value="green">초록색</option>
+    </select>
+    <select onchange="setOp(this.value)">
+        <option>부드러운 정도</option>
+        <option value="0.05">0.05</option>
+        <option value="0.1">0.1</option>
+        <option value="0.3">0.3</option>
+        <option value="0.6">0.6</option>
+    </select>
+    <div id="container"></div>
+</body>
+</html>
